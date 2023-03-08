@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+
+  wasmd:
+    container_name: wasmd
+    image: pppatil/wasmd
+    tty: true
+    stdin_open: true
+    environment:
+      - CHAIN_ID="gbcchain"
+      - TXFLAG="--chain-id $gbcchain --gas-prices 0.025stake --gas auto --gas-adjustment 1.3"
+    command: ["tail", "-f", "/dev/null"]
+    # volumes:
+    #   - ./wasmd:/wasmd
