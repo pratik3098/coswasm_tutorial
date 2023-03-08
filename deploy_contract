@@ -1,0 +1,24 @@
+#!/bin/bash 
+RUSTFLAGS='-C link-arg=-s' cargo wasm
+
+wasmd tx wasm store target/wasm32-unknown-unknown/release/cw_nameservice.wasm --from main  --chain-id $CHAIN_ID  
+
+
+CODE_ID=$(wasmd query wasm list-code --output json | jq -r '.code_infos[0].code_id')
+
+
+
+INIT='{"purchase_price":{"amount":"100","denom":"stake"},"transfer_price":{"amount":"999","denom":"stake"}}'
+wasmd tx wasm instantiate 1 "$INIT" --from main --chain-id my-chain --label "awesome name service" --no-admin
+CONTRACT=$(wasmd query wasm list-contract-by-code $CODE_ID --output json | jq -r '.contracts[-1]')
+# check contract state
+wasmd query wasm contract $CONTRACT
+
+address: wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d
+
+contract_info:
+  code_id: "1"
+  creator: wasm1a4w3vwxa8zhy57nyy9kw7zhdasr4ue4wld0zpn
+  label: awesome name service
+
+
