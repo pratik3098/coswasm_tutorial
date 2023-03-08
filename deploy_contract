@@ -9,7 +9,8 @@ CODE_ID=$(wasmd query wasm list-code --output json | jq -r '.code_infos[0].code_
 
 
 INIT='{"purchase_price":{"amount":"100","denom":"stake"},"transfer_price":{"amount":"999","denom":"stake"}}'
-wasmd tx wasm instantiate 1 "$INIT" --from main --chain-id my-chain --label "awesome name service" --no-admin
+wasmd tx wasm instantiate 1 "$INIT" --from main --chain-id $CHAIN_ID --label "awesome name service" --no-admin
+
 CONTRACT=$(wasmd query wasm list-contract-by-code $CODE_ID --output json | jq -r '.contracts[-1]')
 # check contract state
 wasmd query wasm contract $CONTRACT
