@@ -13,3 +13,4 @@ services:
     command: ["tail", "-f", "/dev/null"]
     volumes:
       - ./wasmd:/wasmd
+      - ./cw-examples:/home/cw
